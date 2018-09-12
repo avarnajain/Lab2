@@ -33,12 +33,64 @@ public class SolveMaze {
          * You should be able to solve a 10 x 10 maze in (far fewer than) 1000 steps.
          * Feel free to adjust this number if you experiment with other mazes.
          */
-        for (int step = 0; step < 1000; step++) {
-            // Implement your maze solving algorithm here
+        int step = 0;
+        for (; step < 100000000; step++) {
+            while (maze.isFinished() == false) {
+                if (maze.canMove()) {
+                    maze.move();
+                    continue;
+                }
+                maze.turnRight();
+                if (maze.canMove()) {
+                    maze.move();
+                    continue;
+                }
+                maze.turnLeft();
+                maze.turnLeft();
+                if (maze.canMove()) {
+                    maze.move();
+                    continue;
+                }
+                maze.turnLeft();
+                if (maze.canMove()) {
+                    maze.move();
+                    continue;
+                }
+            }
         }
-
         if (maze.isFinished()) {
             System.out.println("You solved the maze!");
+        } else {
+            System.out.println("Try again!");
+        }
+        int randomStep = 0;
+        for (; randomStep < 100000000; randomStep++) {
+            while (maze.isFinished() == false) {
+                if (maze.canMove()) {
+                    maze.move();
+                    continue;
+                }
+                int random = (int) Math.random();
+                if (random == 1) {
+                    maze.turnRight();
+                } else {
+                    maze.turnLeft();
+                }
+                if (maze.canMove()) {
+                    maze.move();
+                    continue;
+                }
+            }
+        }
+        if (maze.isFinished() && step > randomStep) {
+            System.out.println("You solved the maze with deterministic algorithms!");
+            System.out.print(step);
+        } else if (maze.isFinished() && step == randomStep) {
+            System.out.println("You solved the maze with deterministic and randomized algorithms!");
+            System.out.print(step);
+        } else if (maze.isFinished() && step < randomStep) {
+            System.out.println("You solved the maze with randomized algorithms!");
+            System.out.print(randomStep);
         } else {
             System.out.println("Try again!");
         }
